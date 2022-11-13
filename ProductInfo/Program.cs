@@ -46,26 +46,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add Azure AD Authentication
-builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAdB2C")
-               .EnableTokenAcquisitionToCallDownstreamApi(new string[] { builder.Configuration["TodoList:TodoListScope"] })
-               .AddInMemoryTokenCaches();
-builder.Services.AddInMemoryTokenCaches();
+// Add Azure AD Authentication (Comment when testing locally)
+//builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAdB2C")
+//               .EnableTokenAcquisitionToCallDownstreamApi(new string[] { builder.Configuration["TodoList:TodoListScope"] })
+//               .AddInMemoryTokenCaches();
+//builder.Services.AddInMemoryTokenCaches();
 
-// Validate bearer access tokens received by the Web API
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-           .AddMicrosoftIdentityWebApi(options =>
-           {
-               builder.Configuration.Bind("AzureAdB2C", options);
+// Validate bearer access tokens received by the Web API (Comment when testing locally)
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//           .AddMicrosoftIdentityWebApi(options =>
+//           {
+//               builder.Configuration.Bind("AzureAdB2C", options);
 
-               options.TokenValidationParameters.NameClaimType = "name";
-           },
-      options => { builder.Configuration.Bind("AzureAdB2C", options); });
+//               options.TokenValidationParameters.NameClaimType = "name";
+//           },
+//      options => { builder.Configuration.Bind("AzureAdB2C", options); });
 
-// Enable Microsoft identity platform endpoint
-builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAdB2C")
-                    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { builder.Configuration["TodoList:TodoListScope"] })
-                    .AddInMemoryTokenCaches();
+// Enable Microsoft identity platform endpoint (Comment when testing locally)
+//builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAdB2C")
+//                    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { builder.Configuration["TodoList:TodoListScope"] })
+//                    .AddInMemoryTokenCaches();
 
 var app = builder.Build();
 
@@ -75,8 +75,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseAuthentication();
 
 app.UseHttpsRedirection();
 
